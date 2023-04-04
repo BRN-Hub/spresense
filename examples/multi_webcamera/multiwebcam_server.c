@@ -48,7 +48,11 @@
  
 #define MAX_SENDING_LEN (1500)
 
-static int send_binary(int s, const char *data, int len)
+// 分割送信の最後のパッケージ
+static char last_data[MAX_SENDING_LEN + 2];
+
+// send_crlf_flgは画像データ送信時のみ有効
+static int send_binary(int s, const char *data, int len, bool send_crlf_flg)
 {
   int ret;
   int sending_len;
@@ -58,16 +62,29 @@ static int send_binary(int s, const char *data, int len)
     {
       sending_len = len - sent_len;
       sending_len = ( sending_len > MAX_SENDING_LEN ) ? MAX_SENDING_LEN : sending_len;
-      ret = write(s, data, sending_len);
 
+      if (send_crlf_flg && sending_len < MAX_SENDING_LEN) {
+        
+        memset(last_data, 0, MAX_SENDING_LEN + 2);
+        memcpy(last_data, data, sending_len);
+
+        // last_dataの最後にCRLFを追加する
+        memset(&last_data[sending_len], 0x0D, 1);
+        // CR＝0x0D、LF＝0x0A
+        memset(&last_data[sending_len + 1], 0x0A, 1);
+
+        ret = write(s, last_data, sending_len + 2);
+      } else {
+        ret = write(s, data, sending_len);
+      }
       if (ret == 0)
         {
           printf("Send 0 byte. Maybe poor reception..\n");
 
-#ifdef CONFIG_EXAMPLES_MULTIWEBCAM_FAILSAFE
-          printf("Behave as an error for fail safe.\n");
-	  return -1;
-#endif
+// #ifdef CONFIG_EXAMPLES_MULTIWEBCAM_FAILSAFE
+//           printf("Behave as an error for fail safe.\n");
+// 	  return -1;
+// #endif
 
         }
 
@@ -86,7 +103,7 @@ static int send_string(int s, const char *msg)
 {
   int len = strlen(msg);
 
-  return send_binary(s, msg, len);
+  return send_binary(s, msg, len, false);
 }
 
 int multiwebcam_initserver(int port_num)
@@ -188,21 +205,19 @@ static int send_midheader(int s, int sz)
 
 int multiwebcam_sendframe(int c_sock, char *jpg, int jpg_len)
 {
+  jpg_len += 2;
   if (send_midheader(c_sock, jpg_len) < 0)
     {
       return -1;
     }
-
-  if (send_binary(c_sock, jpg, jpg_len) < 0)
+  if (send_binary(c_sock, jpg, jpg_len, true) < 0)
     {
       return -1;
     }
-
-  if (send_string(c_sock, CRLF) < 0)
-    {
-      return -1;
-    }
-
+  // if (send_string(c_sock, CRLF) < 0)
+  //   {
+  //     return -1;
+  //   }
   return 0;
 }
 
@@ -227,7 +242,7 @@ static int send_midheader(int s, int sz)
       return -1;
     }
 
-  if (send_binary(s, (char *)&sz, 4) < 0)
+  if (send_binary(s, (char *)&sz, 4, false) < 0)
     {
       return -1;
     }
@@ -242,7 +257,7 @@ int multiwebcam_sendframe(int c_sock, char *jpg, int jpg_len)
       return -1;
     }
 
-  if (send_binary(c_sock, jpg, jpg_len) < 0)
+  if (send_binary(c_sock, jpg, jpg_len, true) < 0)
     {
       return -1;
     }

@@ -4,7 +4,7 @@ sleep 2
 
 # Start Wi-Fi board and set SSID/Password.
 
-gs2200m -a 1 spresensechristoph opensesame &
+gs2200m forsonyspresense opensesame &
 
 # Sleep until the end of the network settings.
 

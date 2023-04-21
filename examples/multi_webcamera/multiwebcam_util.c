@@ -104,6 +104,8 @@ int multiwebcam_prepare_camera_buf(int    fd,
 
   fsize = EXAMPLE_CAMERA_HSIZE * EXAMPLE_CAMERA_VSIZE * sizeof(uint16_t) / 7;
 
+  printf("Buffer size: %ld B\n", fsize);
+
   for (n_buffers = 0; n_buffers < buffernum; ++n_buffers)
     {
       (*buffers)[n_buffers].length = fsize;

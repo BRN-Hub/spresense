@@ -1,0 +1,25 @@
+
+config BRN_HUB_ENCODER_HOST
+	tristate "Encoder host application"
+	default y
+	---help---
+		Enable the encoder_host app
+
+if BRN_HUB_ENCODER_HOST
+
+config BRN_HUB_ENCODER_HOST_PROGNAME
+	string "Program name"
+	default "encoder_host"
+	---help---
+		This is the name of the program that will be use when the NSH ELF
+		program is installed.
+
+config BRN_HUB_ENCODER_HOST_PRIORITY
+	int "encoder_host task priority"
+	default 100
+
+config BRN_HUB_ENCODER_HOST_STACKSIZE
+	int "encoder_host stack size"
+	default 2048
+
+endif

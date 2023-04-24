@@ -1,0 +1,4 @@
+
+ifneq ($(CONFIG_BRN_HUB_ENCODER_HOST),)
+CONFIGURED_APPS += encoder_host
+endif

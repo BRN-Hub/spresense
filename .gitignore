@@ -3,3 +3,4 @@ firmware/*/*.spk
 firmware/*/*.espk
 firmware/*/stored_version.json
 */*.spk
+**/__pycache__

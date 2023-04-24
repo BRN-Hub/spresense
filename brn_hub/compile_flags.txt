@@ -1,0 +1,5 @@
+# for vscode intellisense
+
+-I../nuttx/include
+-I../sdk/include
+-I../externals/tensorflow/include

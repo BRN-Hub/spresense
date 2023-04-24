@@ -20,7 +20,7 @@ void *load_file_into_memory(const char *path)
     }
 
     fseek(f, 0L, SEEK_END);
-    ulong f_size = ftell(f);
+    size_t f_size = ftell(f);
     fseek(f, 0L, SEEK_SET);
 
     buf = malloc(f_size);
@@ -29,7 +29,7 @@ void *load_file_into_memory(const char *path)
         goto _fclose;
     }
 
-    ulong n_written = fread(buf, 1, f_size, f);
+    size_t n_written = fread(buf, 1, f_size, f);
     if (n_written != f_size)
     {
         free(buf);

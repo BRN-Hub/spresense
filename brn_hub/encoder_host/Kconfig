@@ -20,6 +20,6 @@ config BRN_HUB_ENCODER_HOST_PRIORITY
 
 config BRN_HUB_ENCODER_HOST_STACKSIZE
 	int "encoder_host stack size"
-	default 2048
+	default 8192
 
 endif

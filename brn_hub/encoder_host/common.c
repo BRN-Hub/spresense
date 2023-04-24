@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-// -> must free <-
 void *load_file_into_memory(const char *path)
 {
     if (NULL == path)

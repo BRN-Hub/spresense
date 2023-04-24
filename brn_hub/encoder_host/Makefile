@@ -9,6 +9,6 @@ MODULE = $(CONFIG_BRN_HUB_ENCODER_HOST)
 
 ASRCS =
 CSRCS =
-MAINSRC = encoder_host_main.c
+MAINSRC = encoder_host_main.c common.c
 
 include $(APPDIR)/Application.mk

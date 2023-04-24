@@ -2,4 +2,5 @@
 
 -I../nuttx/include
 -I../sdk/include
+-I../sdk/modules/include
 -I../externals/tensorflow/include

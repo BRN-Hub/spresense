@@ -5,37 +5,39 @@
 
 void *load_file_into_memory(const char *path)
 {
+    void *buf = NULL;
+
     if (NULL == path)
     {
-        return NULL;
+        goto _return;
     }
 
     FILE *f = NULL;
 
     if (!(f = fopen(path, "r")))
     {
-        return NULL;
+        goto _return;
     }
 
     fseek(f, 0L, SEEK_END);
     ulong f_size = ftell(f);
     fseek(f, 0L, SEEK_SET);
 
-    void *buf = malloc(f_size);
+    buf = malloc(f_size);
     if (NULL == buf)
     {
-        fclose(f);
-        return NULL;
+        goto _fclose;
     }
 
     ulong n_written = fread(buf, 1, f_size, f);
     if (n_written != f_size)
     {
         free(buf);
-        fclose(f);
-        return NULL;
+        buf = NULL;
     }
 
+_fclose:
     fclose(f);
+_return:
     return buf;
 }

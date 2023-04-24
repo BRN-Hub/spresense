@@ -9,6 +9,12 @@
 
 int main(int argc, FAR char *argv[])
 {
+    if (argc != 2)
+    {
+        fprintf(stderr, "Argument expected\n");
+        return EXIT_FAILURE;
+    }
+
     int ret = EXIT_SUCCESS;
     void *model = NULL;
     const char *model_path = argv[1];

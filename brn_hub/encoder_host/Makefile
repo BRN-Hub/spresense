@@ -8,7 +8,7 @@ STACKSIZE = $(CONFIG_BRN_HUB_ENCODER_HOST_STACKSIZE)
 MODULE = $(CONFIG_BRN_HUB_ENCODER_HOST)
 
 ASRCS =
-CSRCS =
-MAINSRC = encoder_host_main.c common.c
+CSRCS = common.c
+MAINSRC = encoder_host_main.c
 
 include $(APPDIR)/Application.mk

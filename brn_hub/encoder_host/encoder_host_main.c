@@ -7,7 +7,7 @@
 #include <tflmrt/runtime.h>
 #include <unistd.h>
 
-#define TF_ARENA_SIZE (1500000) // 100k
+#define TF_ARENA_SIZE (900000) // 900k
 
 int main(int argc, FAR char *argv[])
 {
